@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<form action="/form" method="post">
+    <div class="mb-3">
+        <label for="outfit">Outfit</label>
+        <div class="btn-group" role="group" aria-label="Outfit">
+            {% for i in range(1, 6) %}
+            <input type="radio" class="btn-check" name="outfit" id="outfit{{ i }}" value="{{ i }}" autocomplete="off">
+            <label class="btn btn-outline-primary" for="outfit{{ i }}">{{ i }}</label>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="feeling">Feeling</label>
+        <div class="btn-group" role="group" aria-label="Feeling">
+            {% for i in range(1, 6) %}
+            <input type="radio" class="btn-check" name="feeling" id="feeling{{ i }}" value="{{ i }}" autocomplete="off">
+            <label class="btn btn-outline-primary" for="feeling{{ i }}">{{ i }}</label>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="mb-3">
+        <button type="button" class="btn btn-secondary" onclick="getLocation()">Get My Location</button>
+    </div>
+    <input type="hidden" name="latitude" id="latitude">
+    <input type="hidden" name="longitude" id="longitude">
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+
+<script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
+        document.getElementById('latitude').value = lat;
+        document.getElementById('longitude').value = lon;
+    }
+</script>
+{% endblock %}
