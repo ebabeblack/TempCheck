@@ -1,8 +1,71 @@
 body {
     padding: 0;
     margin: 0;
-    }
-    html, body, #map {
+}
+
+html, body, #map {
     height: 100%;
-    width: 100vw;
-    }
+    width: 70vw;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+}
+
+/* These are styles for the home page */
+.paragraph-container {
+    align-items: center; 
+    display: flex;
+    padding: 20px 0;
+   }
+
+.coverImage {
+    max-width: 300%; 
+    height: 300%; 
+    padding: 20px 0; 
+}
+
+.citations {
+    width: 75%;
+    height: 100%;
+    margin-left: 0;
+    padding-top: 40px;
+    font-size: small;
+}
+
+/* These are styles for the map page */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    display: flex;
+    height: 100%;
+}
+.map-container {
+    width: 75%;
+    height: 100%;
+}
+.filters {
+    width: 15%;
+    padding-right: 20px;
+    border-right: 1px solid #ccc;
+    font-size: 0.8em;
+}
+
+.filters input[type="number"],
+.filters input[type="date"],
+.filters input[type="time"] {
+    width: 100%; /* Adjust width as needed */
+    margin-bottom: 10px; /* Add some spacing between inputs */
+}
+
+.filters-table {
+    text-align: center;
+    width: 50%;
+    margin: auto; /* Center the table horizontally */
+    font-size: 0.8em; /* Adjust the font size as needed */
+}

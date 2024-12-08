@@ -1,6 +1,38 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>Welcome to TempCheck</h1>
-<p>This is the home page.</p>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='universal.css') }}">
+</head>
+<hr>
+<table class="table">
+    <tr>
+        <td>
+            This is a simple app you can use to collect and visualize data about how comfortable people are outside! This can be used to catalog hot and cold spots in a city!
+            <br><br>
+            To get started, click on the "Form" link in the navigation bar above. There will be two questions about:
+            <br>
+            1) How much clothing you're wearing.
+            <br>
+            2) How cold you're feeling.
+            <br>
+            Once you submit the form, you can click on the "Map" link to see your data visualized on a map along with all other inputs!
+        </td>
+        <td>
+            <img class="coverImage" src="{{ url_for('static', filename='pics/CTA.png') }}" alt="People sheltering at a warming center at a Chicago train stop during winter">
+        </td>
+    </tr>
+    <td
+    <p class="citations">
+        Citations:
+        <br>
+        <a href="http://oh-hi.info/" target="_blank">http://oh-hi.info/</a> is where I got the photos of people for the output icons! Credit where credit's due.
+        <br>
+        I also used this <a href="https://medium.com/geekculture/how-to-make-a-web-map-with-pythons-flask-and-leaflet-9318c73c67c3" target="_blank">tutorial</a> to layout my leaflet map, and static folder.
+        <br>
+        <a href = "https://open-meteo.com/" target=""_blank">Open-Meteo</a> is where weather data is queried from.
+    </p>
+    </td>
+</table>
+
 {% endblock %}

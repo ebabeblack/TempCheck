@@ -11,21 +11,91 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='universal.css') }}">
 </head>
 <body>
-    <div id="map" style="height: 500px;"></div>
-    <script>
-        var map = L.map('map').setView([42.3736, -71.1097], 13); // Coordinates for Cambridge, MA
+<div class="container">
+    <div class="filters">
+        <form id="filterForm" action="/map" method="post">
+            <div>
+                <label for="temp_min">Temperature Range:</label>
+                <input type="number" id="temp_min" name="temp_min" step="0.1" placeholder="Min">
+                <input type="number" id="temp_max" name="temp_max" step="0.1" placeholder="Max">
+            </div>
+            <div>
+                <label for="humidity_min">Humidity Range:</label>
+                <input type="number" id="humidity_min" name="humidity_min" step="0.1" placeholder="Min">
+                <input type="number" id="humidity_max" name="humidity_max" step="0.1" placeholder="Max">
+            </div>
+            <div>
+                <label for="wind_min">Wind Speed Range:</label>
+                <input type="number" id="wind_min" name="wind_min" step="0.1" placeholder="Min">
+                <input type="number" id="wind_max" name="wind_max" step="0.1" placeholder="Max">
+            </div>
+                <div>
+                    <button type="submit">Apply Filters</button>
+                </div>
+                <div
+                    <button type="button" onclick="clearFilters()">Clear Filters</button>
+                </div>
+                </div>
+        </form>
+        <div class="map-container">
+            <div id="map" style="height: 500px;"></div>
+        </div>
+    </div>    
+</div>
+<div class="filters-table">
+    <table class="table">
+        <tbody>
+            <tr>
+            {% if temp_min and temp_max %}
+                <td>Temperature: {{ temp_min }} - {{ temp_max }}</td>
+            {% else %}
+                <td>No temperature filters</td>
+            {% endif %}
+            {% if humidity_min and humidity_max %}
+                <td>Humidity: {{  humidity_min }} - {{ humidity_max }}</td>
+            {% else %}
+                <td>No humidity filters</td>
+            {% endif %}
+            {% if wind_min and wind_max %}
+                <td>Wind speed:{{ wind_min }} - {{ wind_max }}</td>
+            {% else %}
+                <td>No wind filters</td>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+<script>
+    var map = L.map('map').setView([42.3736, -71.1097], 13); // Coordinates for Cambridge, MA
 
-        {% for marker in markers %}
-        L.marker([{{ marker['lat'] }}, {{ marker['lon'] }}]).addTo(map)
-        .bindPopup("{{ marker['popup'] }}")
-        .openPopup();
-        {% endfor %}
-    </script>
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    {% for marker in markers %}
+    L.circle([{{ marker.lat }}, {{ marker.lon }}], {
+        fillColor: "{{ marker['color'] }}",
+        color: "{{ marker['color'] }}",
+        weight: 0,
+        fillOpacity: 0.3,
+        radius: 50
+    }).addTo(map)
+    .bindPopup("{{ marker['popup'] }}")
+    .openPopup();
+    {% endfor %}
+
+    function clearFilters() {
+        document.getElementById('temp_min').value = '';
+        document.getElementById('temp_max').value = '';
+        document.getElementById('humidity_min').value = '';
+        document.getElementById('humidity_max').value = '';
+        document.getElementById('wind_min').value = '';
+        document.getElementById('wind_max').value = '';
+        document.getElementById('filterForm').submit(); // Submit the form to refresh the page
+    }
+</script>
 </body>
 {% endblock %}

@@ -3,25 +3,30 @@
 {% block content %}
 <form action="/form" method="post">
     <div class="mb-3">
-        <label for="outfit">Outfit</label>
+        <label for="outfit">Which outfit is most like the one you're wearing?</label>
         <div class="btn-group" role="group" aria-label="Outfit">
             {% for i in range(1, 6) %}
             <input type="radio" class="btn-check" name="outfit" id="outfit{{ i }}" value="{{ i }}" autocomplete="off">
-            <label class="btn btn-outline-primary" for="outfit{{ i }}">{{ i }}</label>
+            <label class="btn btn-outline-primary" for="outfit{{ i }}" style="display: inline-block; text-align: center;">
+                <img src="{{ url_for('static', filename='pics/CLO-0' ~ i ~ '.png') }}" alt="Outfit {{ i }}" style="width: 150px; height: 150px;">
+            </label>
             {% endfor %}
         </div>
     </div>
+    <hr>
     <div class="mb-3">
-        <label for="feeling">Feeling</label>
+        <label for="feeling">How warm are you feeling?</label>
+        <div></div>
         <div class="btn-group" role="group" aria-label="Feeling">
+            {% set captions = ["Too Cold", "A Little Cold", "Comfortable", "A Little Warm", "Too Warm"] %}
             {% for i in range(1, 6) %}
             <input type="radio" class="btn-check" name="feeling" id="feeling{{ i }}" value="{{ i }}" autocomplete="off">
-            <label class="btn btn-outline-primary" for="feeling{{ i }}">{{ i }}</label>
+            <label class="btn btn-outline-primary" for="feeling{{ i }}" style="background-color: {{ feeling_to_color(i) }}">{{ captions[i-1] }}</label>
             {% endfor %}
         </div>
     </div>
     <div class="mb-3">
-        <button type="button" class="btn btn-secondary" onclick="getLocation()">Get My Location</button>
+        <button type="button" class="btn btn-secondary" onclick="getLocation()">Register my location!</button>
     </div>
     <input type="hidden" name="latitude" id="latitude">
     <input type="hidden" name="longitude" id="longitude">

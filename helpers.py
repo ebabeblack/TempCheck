@@ -2,6 +2,18 @@ import openmeteo_requests
 import requests_cache
 from retry_requests import retry
 
+def feeling_to_color(feeling):
+    colors = {
+        1: '#0000FF',  # Blue
+        2: '#7F7FFF',  # Light Blue
+        3: '#FFFF00',  # Yellow
+        4: '#FF7F7F',  # Light Red
+        5: '#FF0000'   # Red
+    }
+    if 1 <= feeling <= 5:
+        return colors.get(feeling)  # Return the color
+    return '#000000'  # Default to black if feeling is out of range
+
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
 retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
